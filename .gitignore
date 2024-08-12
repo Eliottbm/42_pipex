@@ -1,0 +1,13 @@
+.vscode
+*.o
+*.a
+*.swp
+*.out
+pipex
+pipex_bonus
+infile
+outfile
+outfile2
+pipexMedic
+pipex-tester
+pipex_tester_42
