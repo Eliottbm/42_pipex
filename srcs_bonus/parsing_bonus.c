@@ -6,7 +6,7 @@
 /*   By: ebengtss <ebengtss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:40:47 by ebengtss          #+#    #+#             */
-/*   Updated: 2024/08/12 14:29:47 by ebengtss         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:28:11 by ebengtss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,18 +118,20 @@ t_pipex	*init_pipex(int ac, char **av, char **env)
 	p_data = malloc(sizeof(t_pipex));
 	if (!p_data)
 		return (perror(NULL), NULL);
+	p_data->cmds = NULL;
+	cmp_len = ft_max(8, (ft_strlen(av[1])));
+	if (ft_strncmp("here_doc", av[1], cmp_len) == 0)
+		p_data->limiter = av[2];
+	else
+		p_data->limiter = NULL;
+	if (p_data->limiter && ac < 6)
+		return (free_pipex(p_data), ft_error("wrong args\n"), NULL);
 	p_data->in_fn = av[1];
 	p_data->out_fn = av[ac - 1];
 	if (*env)
 		p_data->env = env;
 	else
 		p_data->env = NULL;
-	cmp_len = ft_max(8, (ft_strlen(av[1])));
-	if (ft_strncmp("here_doc", av[1], cmp_len) == 0)
-		p_data->limiter = av[2];
-	else
-		p_data->limiter = NULL;
-	p_data->cmds = NULL;
 	if (cmds_parse(ac, av, p_data))
 		return (free_pipex(p_data), NULL);
 	return (p_data);
